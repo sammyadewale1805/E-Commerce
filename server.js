@@ -6,6 +6,8 @@ const authRoutes = require('./routes/auth'); // For login/register
 const SocialAuth = require('./routes/SocialAuth'); // For social authentication
 const productRoutes = require("./routes/productRoutes")
 const cartRoutes = require("./routes/cartRoute")
+const paymentRoutes = require('./routes/paymentRoutes')
+const paystackCallbackRoutes = require("./routes/paystackCallbackRoutes")
 
 
 const app = express();
@@ -17,12 +19,17 @@ connectDB();
 // Middleware
 app.use(cors()); // Enable CORS for cross-origin requests
 app.use(express.json());
+app.use(express.raw({ type: 'application/json' }));
 
 // Routes
 app.use('/api/auth', authRoutes); // General authentication
 app.use('/api/social-auth', SocialAuth); // Social authentication
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
+app.use('/api/payments', paymentRoutes);
+app.use('/api', paystackCallbackRoutes);
+
+
 // Global error handler
 app.use((err, req, res, next) => {
   console.error(err.stack);

@@ -1,0 +1,19 @@
+const mongoose = require('mongoose');
+
+const paymentSchema = new mongoose.Schema(
+  {
+    reference: { type: String, required: true, unique: true },
+    amount: { type: Number, required: true },
+    status: { type: String, required: true },
+    customer: {
+      email: { type: String, required: true },
+      firstName: { type: String },
+      lastName: { type: String },
+    },
+  },
+  { timestamps: true }
+);
+
+const Payment = mongoose.model('Payment', paymentSchema);
+
+module.exports = Payment;

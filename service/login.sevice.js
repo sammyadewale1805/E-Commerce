@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 exports.loginService = async (param) => {
+  console.log("this is the request body", JSON.stringify(param, null, 2))
   const {email, password} = param;
   try {
     // Find user by email
