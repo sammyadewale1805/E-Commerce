@@ -1,3 +1,4 @@
+const crypto = require('crypto');
 const PaystackCallbackService = require('../service/paystackCallbackService');
 
 class PaystackCallbackController {
@@ -5,18 +6,27 @@ class PaystackCallbackController {
   static async handleCallback(req, res) {
     try {
       // Extract the Paystack signature and body data
-      // const paystackSignature = req.headers['x-paystack-signature'];
+      const paystackSignature = req.headers['x-paystack-signature'];
       const event = req.body;
 
-      // Verify the signature to ensure the webhook is from Paystack
-      // const isValidSignature = await PaystackCallbackService.verifySignature(
-      //   paystackSignature,
-      //   req.body
-      // );
+      // Ensure signature exists
+      if (!paystackSignature) {
+        return res.status(400).json({ message: 'Missing Paystack signature header' });
+      }
 
-      // if (!isValidSignature) {
-      //   return res.status(400).json({ message: 'Invalid webhook signature' });
-      // }
+      // Verify the signature to ensure the webhook is from Paystack
+      const isValidSignature = await PaystackCallbackService.verifySignature(
+        paystackSignature,
+        req.body
+      );
+
+      if (!isValidSignature) {
+        console.error('Invalid webhook signature:', req.body);
+        return res.status(400).json({ message: 'Invalid webhook signature' });
+      }
+
+      // Log the event for debugging purposes (can be removed in production)
+      console.log('Received event:', event);
 
       // Process the event if the signature is valid
       await PaystackCallbackService.processEvent(event);
