@@ -9,6 +9,8 @@ const cartRoutes = require("./routes/cartRoute");
 const paymentRoutes = require('./routes/paymentRoutes');
 const paystackCallbackRoutes = require("./routes/paystackCallbackRoutes");
 const setupSwaggerDocs = require('./config/swaggerConfig');
+const resetPasswordRoutes = require('./routes/resetPasswordRoute');
+
 
 
 
@@ -35,6 +37,7 @@ app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
 app.use('/api/payments', paymentRoutes);
 app.use('/api', express.raw({ type: 'application/json' }), paystackCallbackRoutes);
+app.use('/api/reset-password', resetPasswordRoutes);
 setupSwaggerDocs(app);
 
 // Global Error Handler
