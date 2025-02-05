@@ -42,4 +42,5 @@ const ussdController = require('../controllers/ussdController');
  */
 router.post('/', ussdController.handleUSSD);
 
+
 module.exports = router;

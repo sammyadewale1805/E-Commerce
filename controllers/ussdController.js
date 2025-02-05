@@ -4,7 +4,7 @@ const ussdService = require('../service/ussdService');
 exports.handleUSSD = (req, res) => {
   // Destructure request body and default text to an empty string if undefined
   const { sessionId, serviceCode, phoneNumber, text = '' } = req.body;
-  
+  console.log(req.body)
   // Process the USSD logic using the service layer
   const responseMessage = ussdService.processUSSD(sessionId, serviceCode, phoneNumber, text);
   
